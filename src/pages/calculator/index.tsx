@@ -5,14 +5,23 @@ import CalculatorView from '../../components/calculator-view'
 const useInputs = () => {
   const createNumbers = () => {
     const calculatorMap = ["%", "CE", "AC", "/", 7, 8, 9, "x", 4, 5, 6, "-", 1, 2, 3, "+", " ", 0, ".", "="]
-    const numbers = []
-    for (let i of calculatorMap) {
-      numbers.push(
+    const numbers = calculatorMap.map((sym: string | number, i) => {
+      if(sym === "=") {
+        return( 
         <Grid item xs={1} key={i}>
-          <Button variant="contained" style={{height: 55, margin: "0", backgroundColor: "#F0F0F0", color: "#515151", fontSize:"30px"}}>{i}</Button>
-        </Grid>
-      )
-    }
+          <Button variant="contained" style={{height: 55, margin: "0", backgroundColor: "#A160FB", color: "white", fontSize:"30px"}}>{sym}</Button>
+        </Grid>)
+        }
+        else if(isNaN(sym as number)) {
+          return(<Grid item xs={1} key={i}>
+            <Button variant="contained" style={{height: 55, margin: "0", backgroundColor: "#F0F0F0", color: "#7F7F7F", fontSize:"30px"}}>{sym}</Button>
+          </Grid>)}
+        else 
+        {
+          return(<Grid item xs={1} key={i}>
+            <Button variant="contained" style={{height: 55, margin: "0", backgroundColor: "#F0F0F0", color: "#515151", fontSize:"30px"}}>{sym}</Button>
+          </Grid>)}
+  })
     return numbers
   }
   return {
@@ -40,7 +49,7 @@ const CalculatorGrid: React.FC = () => {
       secondInput: "",
       operator: "",
     }}/>
-    <Grid container spacing={2} justifyItems='center' columns={{xs: 4}} >
+    <Grid container spacing={2} justifyItems='center' columns={{xs: 4}} style={{padding: "40px"}}>
      {createNumbers()}
     </Grid>
     </Container>
