@@ -9,9 +9,12 @@ const CalculatorView: React.FC<{expression: CalculatorExpression}> = () => {
     {/* create a container for the calculator view with a black background */}
     <Container style={{
       backgroundColor: '#121212',
-      borderRadius: 10,
-      padding: '0px',
-      margin: '0px'
+      borderTopLeftRadius: 30,
+      borderTopRightRadius: 30,
+      borderBottomLeftRadius: 10,
+      borderBottomRightRadius: 10,
+      padding: 0,
+      width: "300px",
     }}>
       {/* we need some typography with purple font */}
       <Typography variant="h2" style={{color:"#A160FB"}}>
