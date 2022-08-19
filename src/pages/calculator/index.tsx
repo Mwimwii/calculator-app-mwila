@@ -41,14 +41,6 @@ const useInputs = () => {
 }
 
 
-const CalculatorInput: React.FC = () => {
-  return (
-    <>
-    <Button>+</Button>
-    </>
-  )
-}
-
 const CalculatorGrid: React.FC = () => {
   const { createNumbers } = useInputs()
   return (
@@ -67,7 +59,7 @@ const CalculatorGrid: React.FC = () => {
           operator: "",
         }}/>
 
-        <Grid container spacing={2} columns={{xs: 4}} style={{padding: "20px", paddingBottom: 30, backgroundColor:"#F1F1F1", maxWidth:"300px", minWidth: 0}}>
+        <Grid container spacing={2} columns={{xs: 4}} style={{padding: "20px", paddingBottom: 30, maxWidth:"300px", minWidth: 0}}>
           {createNumbers()}
         </Grid>
     </Container>
