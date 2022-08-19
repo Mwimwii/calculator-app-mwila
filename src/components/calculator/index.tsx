@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Grid } from '@mui/material'
+import CalculatorView from '../calculator-view'
 
 const useInputs = () => {
   const createNumbers = () => {
@@ -32,6 +33,7 @@ const CalculatorGrid: React.FC = () => {
   const { createNumbers } = useInputs()
   return (
     <>
+    <CalculatorView />
     <Grid container spacing={2} justifyItems='center' columns={{xs: 4}} >
      {createNumbers()}
     </Grid>
