@@ -3,6 +3,7 @@ import { Button, Container, Grid } from '@mui/material'
 import { CalculatorView } from '../../components'
 
 const useInputs = () => {
+  const [display, setDisplay] = React.useState("");
   const size = 60
   const style ={height: size,  width: size, margin: "0", fontSize:"20px", minWidth: 0, padding: 5,
   boxShadow:  "9px 9px 18px #e2e2e2, -9px -9px 18px #fefefe", borderRadius: 20,
@@ -20,29 +21,43 @@ const useInputs = () => {
       if(sym === "=") {
         return( 
         <Grid item xs={1} key={i}>
-          <Button variant="contained" style={{...style, backgroundColor: "#A160FB", color: "white"}}>{sym}</Button>
+          <Button variant="contained" style={{...style, backgroundColor: "#A160FB", color: "white"}}
+            onClick={() => setDisplay("")}>{sym}</Button>
         </Grid>)
-        }
+        } 
+      if(sym === ".") {
+        return( 
+        <Grid item xs={1} key={i}>
+          <Button variant="contained" style={{...style, backgroundColor: "#F0F0F0", color: "#7F7F7F"}}
+            onClick={() => setDisplay(display + sym)}>{sym}</Button>
+        </Grid>)
+        } 
         else if(isNaN(sym as number)) {
           return(<Grid item xs={1} key={i}>
-            <Button variant="contained" style={{...style, backgroundColor: "#F0F0F0", color: "#7F7F7F"}}>{sym}</Button>
+            <Button variant="contained" style={{...style, backgroundColor: "#F0F0F0", color: "#7F7F7F"}}
+            onClick={() => setDisplay("")}>{sym}</Button>
           </Grid>)}
         else 
         {
           return(<Grid item xs={1} key={i}>
-            <Button variant="contained" style={{...style, backgroundColor: "#F0F0F0", color: "#515151"}}>{sym}</Button>
+            <Button variant="contained" style={{...style, backgroundColor: "#F0F0F0", color: "#515151"}}
+            onClick={() => setDisplay(display + sym)}>{sym}</Button>
           </Grid>)}
   })
     return numbers
   }
   return {
+    display,
     createNumbers
   } as const
 }
 
 
 const CalculatorGrid: React.FC = () => {
-  const { createNumbers } = useInputs()
+  const { display, createNumbers } = useInputs()
+  React.useEffect(() => {
+    console.log(display)
+  },[display])
   return (
     <>
     <Container style={{
@@ -57,7 +72,8 @@ const CalculatorGrid: React.FC = () => {
           firstInput: "",
           secondInput: "",
           operator: "",
-        }}/>
+        }}
+        />
 
         <Grid container spacing={2} columns={{xs: 4}} style={{padding: "20px", paddingBottom: 30, maxWidth:"300px", minWidth: 0}}>
           {createNumbers()}
