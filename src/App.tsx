@@ -1,13 +1,15 @@
 import React from 'react'
 import './App.css'
-import { Calculator } from './components'
-
+import { BrowserRouter } from 'react-router-dom'
+import { Routes } from './Routes'
 
 const App: React.FC = () => {
   return (
+    <BrowserRouter>
     <div className="App">
-        <Calculator/>
+      <Routes /> 
     </div>
+    </BrowserRouter>
   )
 }
 
