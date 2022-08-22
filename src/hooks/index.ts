@@ -150,12 +150,12 @@ export const useCalculatorStack = () => {
       return
     } else {
       if (!expression.operator && input !== "=") {
-        if (input === "." && expression.firstInput.includes("."))
+        if ((input === "." && expression.firstInput.includes("."))|| expression.firstInput.length >= 16)
           return
         setExpression({ ...expression, firstInput: expression.firstInput + input });
         setDisplay(expression.firstInput);
       } else if (expression.operator && input !== "=") {
-        if (input === "." && expression.secondInput.includes("."))
+        if ((input === "." && expression.secondInput.includes(".")) || expression.secondInput.length >= 16)
           return
         setExpression({ ...expression, secondInput: expression.secondInput + input });
         setDisplay(expression.secondInput);
