@@ -11,6 +11,7 @@ interface CalculatorViewProps {
 }
 
 const CalculatorView: React.FC<CalculatorViewProps> = ({expression, display}) => {
+  const formatter = Intl.NumberFormat('en-US');
   return (
     <>
     <Container style={{
@@ -34,12 +35,12 @@ const CalculatorView: React.FC<CalculatorViewProps> = ({expression, display}) =>
 
         <Grid item xs={12} style={{paddingTop: 60, paddingRight: 30}}>
           <Typography variant="h6" style={{color:"#A160FB"}} textAlign="end">
-            {expression && `${expression.firstInput === "" ? "" : expression.firstInput} ${expression.operator === "" ? "" : expression.operator} ${expression.secondInput === "" ? "" : expression.secondInput}`}
+            {expression && `${expression.firstInput === "" ? "" : formatter.format(expression.firstInput.toString())} ${expression.operator === "" ? "" : expression.operator} ${expression.secondInput === "" ? "" : formatter.format(expression.secondInput.toString())}`}
           </Typography>
         </Grid>
         <Grid item xs={12} style={{paddingTop: 0,paddingRight: 30}}>
           <Typography variant="h4" color="white" textAlign="end">
-            {display === "" ? "" : display}
+            {display === "" ? "" : formatter.format(display as string)}
           </Typography>
         </Grid>
       </Grid>
