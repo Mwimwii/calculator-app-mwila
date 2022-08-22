@@ -39,8 +39,8 @@ const CalculatorView: React.FC<CalculatorViewProps> = ({expression, display}) =>
             {expression && `${expression.firstInput === "" ? "" : expression.firstInput} ${expression.operator === "" ? "" : expression.operator} ${expression.secondInput === "" ? "" : expression.secondInput}`}
           </Typography>
         </Grid>
-        <Grid item xs={12} style={{paddingTop: 0,paddingRight: 30}}>
-          <Typography variant="h4" color="white" textAlign="end">
+        <Grid item xs={12} style={{paddingTop: 0,paddingRight: 30 }}>
+          <Typography variant="h4" color="white" textAlign="end" style={{fontSize: (display.length > 10 ? 23: 30)}}>
             {display === "" ? expression.firstInput : display}
           </Typography>
         </Grid>
