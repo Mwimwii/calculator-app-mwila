@@ -56,6 +56,7 @@ const handleInput = (displayInput: string, input: string) => {
 const CalculatorGrid: React.FC = () => {
   const {expression, setInput, display, disableInput} = useCalculatorStack()
   const { createNumbers } = useInputs(disableInput,setInput)
+  const [darkMode , setDarkMode] = React.useState(false)
 
   return (
     <>
