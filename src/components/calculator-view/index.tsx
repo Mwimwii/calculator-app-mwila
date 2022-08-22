@@ -41,7 +41,7 @@ const CalculatorView: React.FC<CalculatorViewProps> = ({expression, display}) =>
         </Grid>
         <Grid item xs={12} style={{paddingTop: 0,paddingRight: 30}}>
           <Typography variant="h4" color="white" textAlign="end">
-            {display === "" ? "" : display}
+            {display === "" ? expression.firstInput : display}
           </Typography>
         </Grid>
       </Grid>
