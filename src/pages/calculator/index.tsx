@@ -3,7 +3,7 @@ import { Button, Container, Grid } from '@mui/material'
 import { CalculatorView } from '../../components'
 import { useCalculatorStack } from '../../hooks'
 
-const useInputs = (setInput:(displayInput:string, input: string) => void) => {
+const useInputs = (disableInput: boolean, setInput:(displayInput:string, input: string) => void) => {
   const size = 60
   const style ={height: size,  width: size, margin: "0", fontSize:"20px", minWidth: 0, padding: 5,
   boxShadow:  "9px 9px 18px #e2e2e2, -9px -9px 18px #fefefe", borderRadius: 20
@@ -19,6 +19,7 @@ const handleInput = (displayInput: string, input: string) => {
         return( 
         <Grid item xs={1} key={i}>
           <Button variant="contained" style={{...style, backgroundColor: "#A160FB", color: "white"}}
+            disabled={disableInput}
             onClick={() => {handleInput("=", sym)}}>{sym}</Button>
         </Grid>)
         } 
@@ -26,12 +27,14 @@ const handleInput = (displayInput: string, input: string) => {
         return( 
         <Grid item xs={1} key={i}>
           <Button variant="contained" style={{...style, backgroundColor: "#F0F0F0", color: "#7F7F7F"}}
+            disabled={disableInput}
             onClick={() => {handleInput(sym, sym)}}>{sym}</Button>
         </Grid>)
         } 
         else if(isNaN(Number(sym))) {
           return(<Grid item xs={1} key={i}>
             <Button variant="contained" style={{...style, backgroundColor: "#F0F0F0", color: "#7F7F7F"}}
+            disabled={disableInput}
             onClick={() => {handleInput("", sym.toString())} }>{sym}</Button>
           </Grid>)}
         else 
@@ -51,8 +54,8 @@ const handleInput = (displayInput: string, input: string) => {
 
 
 const CalculatorGrid: React.FC = () => {
-  const {expression, setInput, display} = useCalculatorStack()
-  const { createNumbers } = useInputs(setInput)
+  const {expression, setInput, display, disableInput} = useCalculatorStack()
+  const { createNumbers } = useInputs(disableInput,setInput)
 
   return (
     <>
