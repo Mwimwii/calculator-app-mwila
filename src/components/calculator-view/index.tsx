@@ -11,7 +11,12 @@ interface CalculatorViewProps {
 }
 
 const CalculatorView: React.FC<CalculatorViewProps> = ({expression, display}) => {
-  const formatter = Intl.NumberFormat('en-US');
+  const removeFrontZero = (input: string) => {
+      if(input.length > 1 && input[1] !== ".") {
+        return input.replace(/^0+/, "")
+      }
+      return input
+    }
   return (
     <>
     <Container style={{
@@ -34,14 +39,14 @@ const CalculatorView: React.FC<CalculatorViewProps> = ({expression, display}) =>
         </Grid>
 
         <Grid item xs={12} style={{paddingTop: 60, paddingRight: 30}}>
-          <Typography variant="h6" style={{color:"#A160FB"}} textAlign="end">
+          <Typography variant="h6" textAlign="end"  style={{color:"#A160FB", fontSize: ((expression.firstInput.length + expression.secondInput.length) > 17 ? 12: 23)}}>
             {/* tsignore */}
-            {expression && `${expression.firstInput === "" ? "" : expression.firstInput} ${expression.operator === "" ? "" : expression.operator} ${expression.secondInput === "" ? "" : expression.secondInput}`}
+            {expression && `${expression.firstInput === "" ? "" : removeFrontZero(expression.firstInput)} ${expression.operator === "" ? "" : expression.operator} ${expression.secondInput === "" ? "" : removeFrontZero(expression.secondInput)}`}
           </Typography>
         </Grid>
         <Grid item xs={12} style={{paddingTop: 0,paddingRight: 30 }}>
           <Typography variant="h4" color="white" textAlign="end" style={{fontSize: (display.length > 10 ? 23: 30)}}>
-            {display === "" ? expression.firstInput : display}
+            {display === "" ? removeFrontZero(expression.firstInput) : removeFrontZero(display)}
           </Typography>
         </Grid>
       </Grid>
