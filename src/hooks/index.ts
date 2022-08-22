@@ -3,6 +3,7 @@ import { CalculatorExpression } from '../types'
 
 export const useCalculatorStack = () => {
   const [display, setDisplay] = React.useState("");
+  const [ disableInput, setDisableInput ] = React.useState(false);
   const [expression , setExpression] = React.useState<CalculatorExpression>({
     answer: "",
     firstInput: "",
@@ -28,7 +29,7 @@ export const useCalculatorStack = () => {
       case "/":
         answer = (parseFloat(firstInput) / parseFloat(secondInput)).toString();
         if (secondInput === '0') {
-          answer = "0";
+          setDisableInput(true)
           return('Cannot Divide by zero')
         }
         break;
@@ -39,10 +40,44 @@ export const useCalculatorStack = () => {
   }
  
   React.useEffect(() => {
+    setDisplay(expression.firstInput);
+  }, [expression.firstInput])
+ 
+  React.useEffect(() => {
+    setDisplay(expression.secondInput);
+  }, [expression.secondInput])
+  
+  React.useEffect(() => {
+    setDisplay(expression.answer);
+    
+  }, [expression.answer])
+
+  React.useEffect(() => {
     console.log(expression)
   }, [expression])
 
   const setInput = (displayInput: string, input: string) => {
+    // if the input is a number
+    if (!isNaN(parseFloat(input))) 
+    
+{ if (expression.answer !== "" && expression.firstInput !== "" && expression.secondInput !== "") {
+      setExpression({
+        answer: "",
+        firstInput: input,
+        secondInput: "",
+        operator: ""
+      } as CalculatorExpression);
+      return
+    } 
+    
+    if(disableInput) {
+      console.log('Enabling Input')
+      setExpression({...expression, answer: "", firstInput: input, secondInput: "", operator: "" });
+      setDisableInput(false);
+      return
+      }}
+
+        
     if(input === "AC"){
       setExpression({ ...expression, firstInput: "", secondInput: "", operator: "" });
       setDisplay("");
@@ -53,17 +88,19 @@ export const useCalculatorStack = () => {
       setDisplay("");
       return
     } else if (input === "-/+") {
-      if (expression.secondInput !== "") {
-       setExpression({ ...expression, secondInput: expression.secondInput.charAt(0) === "-" ? expression.secondInput.slice(1) : "-" + expression.secondInput });
-       setDisplay(expression.secondInput);
-     }
-     else
-      if (expression.firstInput !== "") {
-        setExpression({ ...expression, firstInput: expression.firstInput.charAt(0) === "-" ? expression.firstInput.slice(1) : "-" + expression.firstInput });
+      if (expression.answer !== "") {
+        setExpression({ ...expression, firstInput: expression.answer.charAt(0) === "-" ? expression.answer.slice(1) : "-" + expression.answer, secondInput: "", operator: "", answer: "" });
         setDisplay(expression.firstInput);
+      }
+      else if (expression.secondInput !== "") {
+       setExpression({ ...expression, secondInput: expression.secondInput.charAt(0) === "-" ? expression.secondInput.slice(1) : "-" + expression.secondInput });
+     }
+     else if (expression.firstInput !== "") {
+        setExpression({ ...expression, firstInput: expression.firstInput.charAt(0) === "-" ? expression.firstInput.slice(1) : "-" + expression.firstInput });
       } 
       return
-    } else if (input === "+" || input === "-" || input === "*" || input === "/") {
+    }
+     else if (input === "+" || input === "-" || input === "*" || input === "/") {
       if(expression.firstInput === "") {
        return 
       }
@@ -74,17 +111,24 @@ export const useCalculatorStack = () => {
       else if (expression.secondInput === "") {
         setStack([...stack, expression]);
         setExpression({ ...expression, firstInput:expression.answer , secondInput: "", operator: input, answer: "" });
+      } else if (expression.answer !== "") {
+        setStack([...stack, expression]);
+        setExpression({ ...expression, firstInput: expression.answer, secondInput: "", operator: input, answer: "" });
       } else {
         setStack([...stack, expression]);
         setExpression({ ...expression, firstInput: evaluate(expression), secondInput: "", operator: input, answer: "" });
+
       }
     } else if (input === "%") {
-      expression.answer !== "" && setExpression({ ...expression, answer: (Number (expression.secondInput)/100).toString() });
-      (expression.firstInput !== "" && expression.operator === "") && setExpression({ ...expression, firstInput:(Number (expression.firstInput)/100).toString() });
-      expression.secondInput !== "" && setExpression({ ...expression, secondInput: (Number (expression.secondInput)/100).toString() });
-
+      if(expression.answer !== "") 
+       setExpression({ ...expression, answer: (Number (expression.answer)/100).toString() });
+       else if(expression.secondInput !== "")
+        setExpression({ ...expression, secondInput: (Number (expression.secondInput)/100).toString() });
+       else if (expression.firstInput !== "")
+        setExpression({ ...expression, firstInput:(Number (expression.firstInput)/100).toString() });
+      
     } 
-    else if (input === "=") {
+    else if (input === "=" && expression.secondInput !== "") {
       if (expression.answer !== "") {
         setExpression({ ...expression, firstInput: expression.answer });
       }
@@ -95,8 +139,10 @@ export const useCalculatorStack = () => {
     } else {
       if (!expression.operator) {
         setExpression({ ...expression, firstInput: expression.firstInput + input });
-      } else {
+        setDisplay(expression.firstInput);
+      } else if(expression.operator && input !== "=") {
         setExpression({ ...expression, secondInput: expression.secondInput + input });
+        setDisplay(expression.secondInput);
       } 
       return
     }
@@ -105,7 +151,8 @@ export const useCalculatorStack = () => {
     expression,
     setInput,
     display,
-    setDisplay
+    setDisplay,
+    disableInput
   } as const
 }
   
